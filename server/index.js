@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const colors = require("colors");
 
+const salt = 10;
+
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -15,7 +17,7 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  databse: "signup",
+  database: "signup",
 });
 
 db.connect(function (err) {
@@ -24,6 +26,32 @@ db.connect(function (err) {
     return;
   }
   console.log(colors.magenta("Connected to database"));
+});
+
+app.post("/register", async (req, res) => {
+  const { name, email, password, confPassword } = req.body;
+  if (password !== confPassword)
+    return res
+      .status(400)
+      .json({ msg: "Password and Confirm Password do not match" });
+
+  let hashedPassword = await bcrypt.hash(password, 8);
+  console.log(hashedPassword);
+
+  db.query(
+    `INSERT INTO login SET ?`,
+    { name: name, email: email, password: hashedPassword },
+    (error, results) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(results);
+        res.json({ msg: "Registration Successful" });
+      }
+    }
+  );
+
+  console.log(req.body);
 });
 
 app.listen(8081, () => {

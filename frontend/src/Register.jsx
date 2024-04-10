@@ -7,6 +7,7 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confPassword: "",
   });
 
   const handleSubmit = (event) => {
@@ -56,6 +57,20 @@ const Register = () => {
               className="form-control rounded-0"
               onChange={(e) =>
                 setValues({ ...values, password: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="confirm password">
+              <strong>Confirm Password</strong>
+            </label>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              name="confPassword"
+              className="form-control rounded-0"
+              onChange={(e) =>
+                setValues({ ...values, confPassword: e.target.value })
               }
             />
           </div>
