@@ -18,6 +18,14 @@ const db = mysql.createConnection({
   databse: "signup",
 });
 
+db.connect(function (err) {
+  if (err) {
+    console.error("erro connecting: " + err.stack);
+    return;
+  }
+  console.log(colors.magenta("Connected to database"));
+});
+
 app.listen(8081, () => {
   console.log(colors.cyan("Server is Running on localhost:8081"));
 });
