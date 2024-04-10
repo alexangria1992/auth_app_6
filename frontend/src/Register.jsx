@@ -1,11 +1,26 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post("http://localhost:8081/register", values)
+      .then((res) => console.log(res))
+      .then((err) => console.log(err));
+  };
   return (
     <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
       <div className="bg-white p-3 rounded w-25">
         <h2>Sign Up</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name">
               <strong>Name</strong>
@@ -15,6 +30,7 @@ const Register = () => {
               placeholder="Enter Name"
               name="name"
               className="form-control rounded-0"
+              onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
           </div>
           <div className="mb-3">
@@ -26,6 +42,7 @@ const Register = () => {
               placeholder="Enter Email"
               name="email"
               className="form-control rounded-0"
+              onChange={(e) => setValues({ ...values, email: e.target.value })}
             />
           </div>
           <div className="mb-3">
@@ -37,6 +54,9 @@ const Register = () => {
               placeholder="Enter Password"
               name="password"
               className="form-control rounded-0"
+              onChange={(e) =>
+                setValues({ ...values, password: e.target.value })
+              }
             />
           </div>
           <button className="btn btn-success w-100 rounded-0">Sign Up</button>
