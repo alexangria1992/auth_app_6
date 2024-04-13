@@ -28,6 +28,7 @@ db.connect(function (err) {
   console.log(colors.magenta("Connected to database"));
 });
 
+// ===== EndPoint ====== //
 app.post("/register", async (req, res) => {
   const { name, email, password, confPassword } = req.body;
   if (password !== confPassword)
@@ -46,7 +47,7 @@ app.post("/register", async (req, res) => {
         console.log(error);
       } else {
         console.log(results);
-        res.json({ msg: "Registration Successful" });
+        res.json({ Status: "Successful Registration" });
       }
     }
   );
